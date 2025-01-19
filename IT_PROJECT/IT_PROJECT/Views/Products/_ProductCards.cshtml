@@ -1,0 +1,71 @@
+﻿@model IT_PROJECT.Models.ProductsPartialViewModel
+
+@if (Model.totalItems == 0)
+{
+    <div class="text-center" style="width: 100%">
+        <h4 style="position: relative; top: 35%">No products match your search.</h4>
+    </div>
+}
+else
+{
+    foreach (var product in Model.products)
+    {
+        <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-3">
+            <div class="card card-custom" style="width: 95%">
+                <div class="text-center m-2 card-image-custom">
+                    <img src="@product.ImageURL" style="max-width: 100%; max-height: 100%" />
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title"><b>@product.Name</b></h5>
+                    <br />
+                    <div>
+                        <h6 style="float: left">Weight:&nbsp;</h6>
+                        <p class="card-text small">@product.Weight</p>
+                    </div>
+                    <div style="clear: left">
+                        <h6 style="float: left">Price:&nbsp;</h6>
+                        <p class="card-text small">@product.Price MKD</p>
+                    </div>
+                    <h6 class="mt-2 me-4">Quantity:</h6>
+                    <div style="clear: left; display: flex; flex-wrap: wrap; justify-content: space-evenly">
+                        <div class="input-group" style="width: 52%">
+                            <button type="button" class="btn btn-quantity-custom js-decrease-quantity" id="js-decrease-quantity-@product.Id" data-productid=@product.Id style="width: 30%">-</button>
+                            @Html.TextBoxFor(model => model.productQuantity, new { @class = "form-control js-text-quantity", id = "js-text-quantity-" + product.Id, data_index = product.Id })
+                            <button type="button" class="btn btn-quantity-custom js-increase-quantity" id="js-increase-quantity@product.Id" data-productid=@product.Id style="width: 30%">+</button>
+                        </div>
+                        <div class="text-center" style="width: 48%">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <div id="check-@product.Id" class="check" style="position: relative; top: 30%; left: 30%"></div>
+                            }
+                        </div>
+                    </div>
+                    <br />
+                    <div class="text-center" style="clear: left">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <button type="button" class="btn btn-primary-custom js-add-to-cart" data-productid="@product.Id" data-authenticated=true>Add to Cart</button>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-primary-custom js-add-to-cart" data-productid="@product.Id" data-authenticated=false>Add to Cart</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="row" style="width: 100%">
+        <div class="text-center input-group" style="width: 30%; margin: auto; clear: both">
+            <button type="button" class="btn btn-secondary-custom" id="js-pagination-previous" style="width: 40%" data-total-pages=@Model.totalPages>
+                Previous
+            </button>
+            @Html.TextBoxFor(model => model.pageNumber, new { @class = "form-control", id = "js-page-number" })
+            <button type="button" class="btn btn-secondary-custom" id="js-pagination-next" style="width: 40%" data-total-pages=@Model.totalPages>
+                Next
+            </button>
+        </div>
+    </div>
+}
+

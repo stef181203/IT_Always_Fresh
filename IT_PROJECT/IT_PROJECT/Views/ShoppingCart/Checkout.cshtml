@@ -1,0 +1,116 @@
+﻿@model IT_PROJECT.Models.CheckoutViewModel
+@{
+    ViewBag.Title = "Checkout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+     var months = Enumerable.Range(1, 12).Select(i => new SelectListItem
+    {
+        Value = i.ToString(),
+        Text = i.ToString()
+    });
+
+    var years = Enumerable.Range(DateTime.Now.Year, 10).Select(i => new SelectListItem
+    {
+        Value = i.ToString(),
+        Text = i.ToString()
+    });
+}
+
+<div id="header-div" class="text-center bg-white py-3">
+    <h2><b>@ViewBag.Title</b></h2>
+</div>
+
+@using (Html.BeginForm("CheckoutConfirmed", "ShoppingCart", FormMethod.Get, new { role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.TotalAmount)
+<div class="row account-row bg-white pt-3 pb-3 mt-3 mb-3">
+    <div>
+        <div class="text-center" style="width: 100%">
+            <h4>Shipping details</h4>
+        </div>
+        <hr />
+        <div class="row m-2 justify-content-center">
+            @Html.LabelFor(m => m.Address, new { @class = "col-md-2 col-form-label" })
+            <div class="col-md-5">
+                @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row m-2 justify-content-center">
+            @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-2 col-form-label" })
+            <div class="col-md-5">
+                @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row account-row bg-white pt-3 pb-3 mt-3 mb-3">
+    <div>
+        <div class="text-center" style="width: 100%">
+            <h4>Payment card details</h4>
+        </div>
+        <hr />
+        <div class="row m-2 justify-content-center">
+            @Html.LabelFor(m => m.FullName, new { @class = "col-md-2 col-form-label" })
+            <div class="col-md-5">
+                @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row m-2 justify-content-center">
+            @Html.LabelFor(m => m.CardNumber, new { @class = "col-md-2 col-form-label" })
+            <div class="col-md-5">
+                @Html.TextBoxFor(m => m.CardNumber, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.CardNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row m-2 justify-content-center">
+            @Html.LabelFor(m => m.CVV, new { @class = "col-md-2 col-form-label" })
+            <div class="col-md-5">
+                @Html.TextBoxFor(m => m.CVV, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.CVV, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row m-2 justify-content-center">
+            <div class="col-md-2 col-form-label">
+                Validity period
+            </div>
+            <div class="col-md-5 pt-2" style="display: flex; flex-wrap: wrap">
+                <div>
+                    @Html.DropDownListFor(m => m.ExpiryMonth, new SelectList(months, "Value", "Text"), new { style = "width: 4rem" })
+                </div>
+                <div>&nbsp;/&nbsp;</div>
+                <div>
+                    @Html.DropDownListFor(m => m.ExpiryYear, new SelectList(years, "Value", "Text"), new { style = "width: 4rem" })
+                </div>
+            </div>
+        </div>
+        <div class="row m-2 justify-content-center">
+            <div class="col-md-2 col-form-label">
+                Total amount:
+            </div>
+            <div class="col-md-5 pt-1">
+                <h4>@Model.TotalAmount MKD</h4>
+            </div>
+        </div>
+        <div class="row m-2 justify-content-center">
+            <div class="col-md-5 text-center">
+                <button type="submit" id="js-confirm" class="btn btn-primary-custom">Confirm</button>
+                <button type="button" id="js-cancel" class="btn btn-secondary-custom">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#js-cancel").click(function () {
+                window.location.href = "@Url.Action("Index", "ShoppingCart")";
+            });
+        });
+    </script>    
+}

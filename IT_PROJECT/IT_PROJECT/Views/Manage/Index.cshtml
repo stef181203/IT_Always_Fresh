@@ -1,0 +1,161 @@
+﻿@model IT_PROJECT.Models.IndexViewModel
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Your profile";
+}
+
+<style>
+    #header-div {
+        border-radius: 0.5rem;
+    }
+
+    #header-div {
+        border-radius: 0.5rem;
+    }
+
+    #first-row {
+        width: 100%;
+        margin: auto;
+        border-radius: 0.5rem;
+    }
+
+        #first-row > div {
+            width: 95%;
+            margin: auto;
+        }
+</style>
+
+<main aria-labelledby="title">
+    <div id="header-div" class="text-center bg-white py-3">
+        <h2><b>@ViewBag.Title</b></h2>
+    </div>
+
+    <div id="first-row" class="row text-center bg-white pt-3 pb-3 mt-3 mb-3">
+        <div>
+            <div class="text-center" style="width: 100%">
+                <h4>Account settings</h4>
+            </div>
+            <hr />
+            <div class="row m-2" style="display: flex; justify-content: center; flex-wrap: wrap">
+                <div class="pt-1" style="width: 8rem">
+                    Email:
+                </div>
+                <div class="pt-1" style="width: 15rem">
+                    @User.Identity.Name
+                </div>
+            </div>
+            <div class="row m-2" style="display: flex; justify-content: center; flex-wrap: wrap">
+                <div class="text-center">
+                    <p class="text-success">@ViewBag.StatusMessage</p>
+                </div>
+                <div class="pt-1" style="width: 8rem">
+                    Password:
+                </div>
+                <div style="width: 15rem">
+                    @if (Model.HasPassword)
+                    {
+                        <button id="js-change-password" type="button" class="btn btn-primary-custom">Change your password</button>
+                    }
+                    else
+                    {
+                        <button id="js-create-password" type="button" class="btn btn-primary-custom">Create</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<div>
+        <h4>Change your account settings</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>Password:</dt>
+            <dd>
+                [
+                @if (Model.HasPassword)
+                {
+                    @Html.ActionLink("Change your password", "ChangePassword")
+                }
+                else
+                {
+                    @Html.ActionLink("Create", "SetPassword")
+                }
+                ]
+            </dd>
+            <dt>External Logins:</dt>
+            <dd>
+                @Model.Logins.Count [
+                @Html.ActionLink("Manage", "ManageLogins") ]
+            </dd>*@
+    @*
+        Phone Numbers can used as a second factor of verification in a two-factor authentication system.
+
+        See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
+            for details on setting up this ASP.NET application to support two-factor authentication using SMS.
+
+        Uncomment the following block after you have set up two-factor authentication
+    *@
+    @*
+        <dt>Phone Number:</dt>
+        <dd>
+            @(Model.PhoneNumber ?? "None")
+            @if (Model.PhoneNumber != null)
+            {
+                <br />
+                <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
+                using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
+                }
+            }
+            else
+            {
+                <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")
+            }
+        </dd>
+    *@
+    @*
+        <dt>Two-Factor Authentication:</dt>
+        <dd>
+            <p>
+                There are no two-factor authentication providers configured. See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
+                for details on setting up this ASP.NET application to support two-factor authentication.
+            </p>*@
+    @*@if (Model.TwoFactor)
+                        {
+                            using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { role = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <text>Enabled
+                                <input type="submit" value="Disable" class="btn btn-link" />
+                                </text>
+                            }
+                        }
+                        else
+                        {
+                            using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { role = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <text>Disabled
+                                <input type="submit" value="Enable" class="btn btn-link" />
+                                </text>
+                            }
+                        }
+                </dd>
+            </dl>
+        </div>*@
+</main>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#js-change-password").click(function () {
+                window.location.href = "@Url.Action("ChangePassword")";
+            });
+
+            $("#js-create-password").click(function () {
+                window.location.href = "@Url.Action("SetPassword")";
+            });
+        });
+    </script>
+}

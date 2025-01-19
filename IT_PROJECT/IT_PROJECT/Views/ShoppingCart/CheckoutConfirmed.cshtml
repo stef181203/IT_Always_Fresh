@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Checkout confirmed";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="header-div" class="text-center bg-white py-3">
+    <h2><b>@ViewBag.Title</b></h2>
+</div>
+
+<div class="row account-row bg-white pt-3 pb-3 mt-3 mb-3">
+    <div>
+        <div class="col-md-6 m-4 text-center" style="width: 100%">
+            <h4 class="text-success">
+                <b>
+                    Congratulations, You placed your order successfully! Information about the shipping will be sent to you soon.
+                </b>
+            </h4>
+            <button type="button" id="js-back-to-home" class="btn btn-primary-custom">Back to Products</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#js-back-to-home").click(function () {
+                window.location.href = "@Url.Action("Index", "Products")";
+            });
+        });
+    </script>    
+}

@@ -1,0 +1,174 @@
+﻿@{
+    ViewBag.Title = "Fresh AND Tasty - A combination that never disappoints!";
+}
+
+<style>
+    .product-row:hover {
+        border: 2px solid darkorange;
+        cursor: pointer;
+    }
+
+        .product-row:hover .col-12 a h2 span {
+            color: darkorange;
+            font-weight: 600;
+        }
+        
+        .product-row:hover .col-12 i {
+            color: darkorange;
+        }
+
+        .col-12 {
+            background-color: white;
+            border-radius: 0.5rem;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .col-12 a {
+            color: var(--darker-blue-custom);
+        }
+
+        .col-12 i {
+            color: var(--blue-custom);
+        }
+</style>
+
+<div class="row account-row text-center bg-white pt-3 pb-3 mb-3">
+    <h2 style="font-weight: 500; color: darkorange; text-shadow: 1px 2px 2px black"><b>FRESH AND TASTY - A COMBINATION THAT NEVER DISAPPOINTS</b></h2>
+</div>
+
+<div class="row account-row text-center bg-white pt-3 pb-3 mb-3 product-row">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-1">
+            <i class="fa-solid fa-lemon fa-3x" style="position: relative; top: 35%"></i>
+        </div>
+        <div class="col-12 col-md-5 justify-content-end">
+            <div style="width: 70%; float: right">
+                <div style="margin-top: 1.5rem">
+                    <a id="link" href="@Url.Action("Index", "Products")" style="text-decoration: none; text-align: right">
+                        <h2 style="font-weight: 300">
+                            Discover the <span>finest</span><br />
+                            <span>seasonal</span> fruits,<br />
+                            freshly picked<br />
+                            <span>just for you.</span>
+                        </h2>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div style="margin-top: 0.3rem">
+                <img src="~/Images/HomePictures/fruits.jpg" style="max-width: 100%; border-radius: 0.5rem" />
+            </div>
+        </div>
+        <div class="col-12 col-md-2 justify-content-end">
+            <div style="width: 30%">
+                <i class="fa-solid fa-apple-whole fa-3x" style="position: relative; top: 35%"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row account-row text-center bg-white pt-3 pb-3 mb-3 product-row">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-2">
+            <i class="fa-solid fa-pepper-hot fa-3x" style="position: relative; top: 35%"></i>
+        </div>
+        <div class="col-12 col-md-4">
+            <div>
+                <img src="~/Images/HomePictures/vegetables.jpg" style="max-width: 100%; border-radius: 0.5rem" />
+            </div>
+        </div>
+        <div class="col-12 col-md-5">
+            <div style="width: 80%">
+                <div style="margin-top: 2.5rem">
+                    <a id="link" href="@Url.Action("Index", "Products")" style="text-decoration: none; text-align: left">
+                        <h2 style="font-weight: 300">
+                            Enjoy a variety of <span>crisp</span><br />
+                            and <span>healthy</span> vegetables,<br />
+                            straight <span>from the farm.</span>
+                        </h2>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-1 justify-content-end">
+            <div style="width: 78%">
+                <i class="fa-solid fa-carrot fa-3x" style="position: relative; top: 35%"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row account-row text-center bg-white pt-3 pb-3 mb-3 product-row">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-1">
+            <i class="fa-solid fa-cheese fa-3x" style="position: relative; top: 35%"></i>
+        </div>
+        <div class="col-12 col-md-5 justify-content-end">
+            <div style="width: 80%">
+                <div style="margin-top: 3rem">
+                    <a id="link" href="@Url.Action("Index", "Products")" style="text-decoration: none; text-align: right">
+                        <h2 style="font-weight: 300">
+                            Experience the <span>pure</span><br />
+                            and <span>natural</span> goodness<br />
+                            of our <span>dairy products.</span>
+                        </h2>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div>
+                <img src="~/Images/HomePictures/dairy.jpg" style="max-width: 100%; border-radius: 0.5rem" />
+            </div>
+        </div>
+        <div class="col-12 col-md-2 justify-content-end">
+            <div style="width: 30%">
+                <i class="fa-solid fa-egg fa-3x" style="position: relative; top: 35%"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row account-row text-center bg-white pt-3 pb-3 mb-3 product-row">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-2">
+            <i class="fa-solid fa-leaf fa-3x" style="position: relative; top: 35%"></i>
+        </div>
+        <div class="col-12 col-md-4">
+            <div>
+                <img src="~/Images/HomePictures/fruits-and-vegetables.jpg" style="max-width: 100%; border-radius: 0.5rem" />
+            </div>
+        </div>
+        <div class="col-12 col-md-5">
+            <div style="width: 80%">
+                <div style="margin-top: 1.5rem">
+                    <a id="link" href="@Url.Action("Index", "Products")" style="text-decoration: none; text-align: left">
+                        <h2 style="font-weight: 300">
+                            Your <span>one-stop</span><br />
+                            shop for <span>freshness,</span><br />
+                            offering <span>the best</span><br />
+                            <span>quality</span> products.
+                        </h2>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-1 justify-content-end">
+            <div style="width: 78%">
+                <i class="fa-solid fa-seedling fa-3x" style="position: relative; top: 35%"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(".product-row").click(function () {
+                window.location.href = "@Url.Action("Index", "Products")";
+            });
+        });
+    </script>    
+}

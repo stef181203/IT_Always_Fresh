@@ -1,0 +1,184 @@
+﻿@model IT_PROJECT.Models.ShoppingCartViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+        #myCustomTable thead tr {
+            background-color: var(--blue-custom);
+            color: white;
+        }
+
+            #myCustomTable thead tr th:first-of-type {
+                border-top-left-radius: 0.5rem;
+            }
+
+            #myCustomTable thead tr th:last-of-type {
+                border-top-right-radius: 0.5rem;
+            }
+
+    tbody {
+        background-color: var(--gray-custom);
+    }
+</style>
+
+<div id="header-div" class="text-center bg-white py-3">
+    <h2><b>Shopping Cart</b></h2>
+</div>
+
+@if (Model.CartItems.Count == 0)
+{
+    <div class="row account-row text-center bg-white pt-3 pb-3 mt-3 mb-3">
+        <div>
+            <div class="text-center" style="width: 100%">
+                <h4>Your shopping cart is empty</h4>
+            </div>
+            <hr />
+            <button type="button" class="btn btn-primary-custom" id="js-back-to-products" style="width: 12rem; margin: auto">Browse Products</button>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row account-row text-center bg-white mt-3 mb-3">
+        <div class="table-responsive">
+            <table id="myCustomTable" class="table table-borderless mt-4 mb-4">
+                <thead>
+                    <tr>
+                        <th>
+                            Product
+                        </th>
+                        <th>
+                            Product price
+                        </th>
+                        <th>
+                            Quantity
+                        </th>
+                        <th>
+                            Total product price
+                        </th>
+                        <th>
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @for (int i = 0; i < Model.CartItems.Count; i++)
+                    {
+                        <tr id="row-@Model.CartItems[i].ProductId">
+                            @if (i == Model.CartItems.Count - 1)
+                            {
+                                <td style="border-bottom-left-radius: 0.5rem">
+                                    @Html.DisplayFor(modelItem => @Model.CartItems[i].Product.Name)
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.DisplayFor(modelItem => @Model.CartItems[i].Product.Name)
+                                </td>
+                            }
+                            <td id="price-@Model.CartItems[i].ProductId">
+                                @Html.DisplayFor(modelItem => Model.CartItems[i].Product.Price) MKD
+                            </td>
+                            <td id="quantity-@Model.CartItems[i].ProductId" data-product-weight="@Model.CartItems[i].Product.Weight">
+                                @Html.DisplayFor(modelItem => Model.CartItems[i].Quantity) x @Html.DisplayFor(modelItem => Model.CartItems[i].Product.Weight)
+                            </td>
+                            <td id="total-product-price-@Model.CartItems[i].ProductId">
+                                @Html.DisplayFor(modelItem => Model.CartItems[i].TotalPrice) MKD
+                            </td>
+                            @if (i == Model.CartItems.Count - 1)
+                            {
+                                <td style="border-bottom-right-radius: 0.5rem">
+                                    <button type="button" class="btn btn-secondary-custom js-remove-from-cart" data-productid="@Model.CartItems[i].ProductId">Remove from cart</button>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <button type="button" class="btn btn-secondary-custom js-remove-from-cart" data-productid="@Model.CartItems[i].ProductId">Remove from cart</button>
+                                </td>
+                            }
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row account-row text-center bg-white mt-3 mb-3">
+        <div class="m-2" style="display: flex; justify-content:center; flex-wrap: wrap">
+            <h4 class="m-3 pt-1">
+                Total Price:&nbsp;&nbsp;<b id="total-price" data-price=@Model.CartTotal>@Model.CartTotal MKD</b>
+            </h4>
+            <button type="button" id="js-proceed-to-checkout" class="btn btn-primary-custom m-3">
+                Proceed to Checkout
+            </button>
+            <button type="button" id="js-back-to-products" class="btn btn-secondary-custom m-3">
+                Back to Products
+            </button>
+        </div>
+    </div>
+}
+
+        @section Scripts{
+            <script>
+        $(document).ready(function () {
+            $("#js-back-to-products").click(function () {
+                window.location.href = "@Url.Action("Index", "Products", new { category = "All" })";
+            });
+
+            $("#js-proceed-to-checkout").click(function () {
+                window.location.href = "@Url.Action("Checkout")";
+            });
+
+            $(".js-remove-from-cart").click(function () {
+                var productid = $(this).data("productid");
+                $.ajax({
+                    url: "@Url.Action("/RemoveFromCart")",
+                    type: "POST",
+                    data: { id: productid },
+                    success: function () {
+                        const quantityElement = $("#quantity-" + productid);
+                        const totalProductPriceElement = $("#total-product-price-" + productid);
+                        const productPriceElement = $("#price-" + productid);
+                        const totalPriceElement = $("#total-price");
+                        const productWeight = quantityElement.data("product-weight");
+
+                        let currentQuantity = parseInt(quantityElement.text(), 10);
+                        let currentTotalProductPrice = parseFloat(totalProductPriceElement.text(), 10);
+                        const productPrice = parseFloat(productPriceElement.text(), 10);
+                        let currentTotalPrice = parseFloat(totalPriceElement.data("price"), 10);
+
+
+                        currentQuantity -= 1;
+                        currentTotalProductPrice -= productPrice;
+                        currentTotalPrice -= productPrice;
+
+                        if (currentQuantity >= 1) {
+                            quantityElement.text(currentQuantity + " x " + productWeight);
+                            totalProductPriceElement.text(currentTotalProductPrice + ".00 MKD");
+                        } else {
+                            const rowElement = $("#row-" + productid);
+                            rowElement.remove();
+                        }
+
+                        totalPriceElement.html(currentTotalPrice + ".00 MKD");
+                        totalPriceElement.data("price", currentTotalPrice);
+
+                        var table = document.getElementById("myCustomTable");
+                        if (table.rows.length === 1) {
+                            location.reload();
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            });
+        });
+            </script>
+        }
